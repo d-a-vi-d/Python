@@ -19,6 +19,15 @@ class Website:
         # Füge den neuen Link zur links-Dictionary hinzu
         self.links[link_name] = f"https://www.{link_name}.com"
 
+    def remove_link(self, shortcut):
+        # Entferne die Verknüpfung und den zugehörigen Link
+        link_name = self.shortcuts.pop(shortcut, None)
+        if link_name:
+            self.links.pop(link_name, None)
+            print(f"Verknüpfung gelöscht: {shortcut} -> {link_name}")
+        else:
+            print("Shortcut nicht gefunden!")   
+
 # Nutzung der Klasse
 website = Website()
 while True:
@@ -28,7 +37,7 @@ while True:
     if mode == 'g':
         print("\nOption 'get' ausgewählt.")
         eingabe = input("Shortcut>>> ")
-        print(website.get_link(eingabe))
+        print("\n" + website.get_link(eingabe))
     elif mode == 'l':
         print("\nOption 'list' ausgewählt.")
         print("Shortcuts:")
@@ -41,7 +50,11 @@ while True:
         website.add_link(new_shortcut, new_link_name)
         print(f"Neue Verknüpfung hinzugefügt: {new_shortcut} -> {new_link_name}")
     elif mode == 'r':
-        
         print("\nOption 'remove' ausgewählt.")
+        print("Shortcuts:")
+        for shortcut, name in website.shortcuts.items():
+            print(f"{shortcut} -> {name}: {website.links[name]}")
+        deleted_shortcut = input("Shortcut löschen: ")
+        website.remove_link(deleted_shortcut)
     else:
         print("Ungültige Auswahl!")
